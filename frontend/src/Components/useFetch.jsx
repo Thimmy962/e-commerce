@@ -7,9 +7,16 @@ export const useFetch = (url) => {
     const fetchData = async () => {
       const response = await fetch(url);
       const json = await response.json();
-      if (response.status == 200){setData(json);}
-      else{setError("Something went wrong")}
+      if (response.status == 200)
+      {
+        setData(json);
+      }
+
+      else{
+        setError("Something went wrong")
+      }
     };
+
     fetchData();
   }, [url]);
   return { data, error };

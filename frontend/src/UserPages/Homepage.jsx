@@ -2,6 +2,7 @@ import { Card, Button } from 'flowbite-react';
 import React, { useState, useEffect, useContext } from 'react';
 import Banner from '../Components/Banner';
 import AuthContenxt from '../utils/Context';
+import { API_BASE_URL } from '../Components/Config';
 
 
 const imgSrc =[
@@ -22,27 +23,29 @@ const imgSrc =[
 const Homepage = ({ selectedCategory }) => {
   const [products, setProducts] = useState([]);
 
+
   const {user} = useContext(AuthContenxt)
 
 
   // Fetch products based on the selected category
   useEffect(() => {
-    // Replace this with your actual fetch logic
-    // For demonstration, let's assume products are fetched from an API
+    // Fetch products based on the selected category
     const fetchProducts = async () => {
       try {
-
-
-        console.log(selectedCategory)
+        const response = await fetch(API_BASE_URL); // Fetch data from the API
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json(); // Parse response data
+        setProducts(data); // Set products state with fetched data
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching products:', error.message);
+        // Handle error state or show an error message to the user
       }
     };
 
-    if (selectedCategory) {
-      fetchProducts();
-    }
-  }, [selectedCategory]);
+    fetchProducts(); // Call the fetchProducts function
+  }, []);
 
   if(user){
 
@@ -53,12 +56,14 @@ const Homepage = ({ selectedCategory }) => {
   
 		<div className="grid  grid-col-1 md:grid-cols-2  lg:grid-cols-4 gap-4 justify-center align-middle">
 			  {
-				  imgSrc.map((img, index) =>(
+				  products.map((img, index) =>(
 					  <Card
-						  key = {index}
+						  key = {img.id}
 						  className="max-w-sm"
 						  imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
-						  imgSrc={img}
+
+						//    used the images above since ive not added an image to any of the products
+						  imgSrc={imgSrc[index]}
 						  >
 						  <a href="#">
 							  <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -67,8 +72,8 @@ const Homepage = ({ selectedCategory }) => {
 						  </a>
   
 						  					<div className="flex items-center justify-between flex-wrap gap-2">
-							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;599</span>
-							<a href={`/detail/${index}`}>
+							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;{img.price}</span>
+							<a href={`/detail/${img.id}`}>
 							<Button  size='xs' color="gray" className='dark:text-white text-white bg-blue-700 hover:bg-blue-800
 							font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
 								Edit

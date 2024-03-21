@@ -30,6 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 AUTH_USER_MODEL = 'account.UserAccount'
 
 # Application definition
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'account',
     'rest_framework_simplejwt',   
     'rest_framework_simplejwt.token_blacklist',
+    'corsheaders'
 ]
 
 
@@ -89,7 +92,10 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

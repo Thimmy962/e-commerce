@@ -43,7 +43,7 @@ export const AuthProvider = ({children}) => {
         setLoading(true)
         const data = {
 
-            "username": e.target.username.value, 
+            "email": e.target.email.value, 
             "password": e.target.password.value,
         }
         

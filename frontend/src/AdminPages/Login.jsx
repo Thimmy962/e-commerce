@@ -22,9 +22,9 @@ function LoginForm() {
         </div>
         <form onSubmit={login} className="space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
-            <input id="username" name="username" type="text" autoComplete="username" required
+            <input id="username" name="email" type="email" autoComplete="email" required
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Username"
+              placeholder="Mail"
             />
             <br />
             <input id="password" name="password" type="password" autoComplete="current-password"
