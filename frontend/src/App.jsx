@@ -10,6 +10,7 @@ import PrivateRoutes from './utils/Privateroute'
 import { AuthProvider } from './utils/Context';
 import Detailpage from './UserPages/Detailpage';
 import PageNotFound from './UserPages/PageNotFound';
+import CheckOut from './UserPages/CheckOut';
 
 function App(){
 
@@ -30,6 +31,7 @@ function App(){
 				<Route path='/' element={<Homepage />} />
 				<Route path='/login' element={<LoginForm />} />
 				<Route path = '/detail/:id' element = {<Detailpage />} />
+				<Route path='/checkout' element = {<CheckOut />} />
 
 				<Route element={<PrivateRoutes />}>
 					<Route path='/admin/add' element={<ProductForm />} />
