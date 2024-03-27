@@ -83,7 +83,7 @@ export const AuthProvider = ({children}) => {
         setTokens(null)
         setUser(null)
 
-        navigate('/login')
+        navigate('/')
     }
 
     useEffect(() => {

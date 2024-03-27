@@ -2,12 +2,14 @@ import React, {useContext, useEffect} from 'react';
 import AuthContext from '../utils/Context'
 
 
-function LoginForm() {
+const LoginForm = () => {
 
-  let {login, logout} = useContext(AuthContext)
+  let {login, logout, user} = useContext(AuthContext)
 
   useEffect(() => {
-    logout()
+    if(user){
+      logout()
+    }
   }, [])
 
 
