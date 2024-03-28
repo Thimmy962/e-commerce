@@ -27,7 +27,6 @@ export const AuthProvider = ({children}) => {
 
     
         let data = await res.json(); // Correctly await the promise returned by res.json()
-        console.log(jwtDecode(data.access))
 
         if (res.status == 200) {
             setTokens(data);

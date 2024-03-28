@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import AuthContenxt from '../utils/Context';
+import { API_BASE_URL } from '../Components/Config';
 
 const categories = [
     {'id': 1, 'category': 'Men'},
@@ -9,11 +10,10 @@ const categories = [
 
 function ProductForm() {
 
-const {user} = useContext(AuthContenxt)  
+const {tokens} = useContext(AuthContenxt)  
 
   const [product, setProduct] = useState({
     name: '',
-    description: '',
     price: '',
     category:'',
     images: [] // Array to store selected images
@@ -41,33 +41,51 @@ const {user} = useContext(AuthContenxt)
     e.preventDefault();
 
     let images = []
-    product.images.forEach((image) => {
-        images.append(image)
-    })
 
+    for (const image of product.images) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+          const base64ImageData = event.target.result;
+          images.push(base64ImageData);
+      };
+      reader.readAsDataURL(image);
+  }
+
+  // Wait for all images to be read and encoded before proceeding
+  await Promise.all(product.images.map(imageFile => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+          const base64ImageData = event.target.result;
+          images.push(base64ImageData);
+          resolve();
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(imageFile);
+  })));
+  
     const formData = {
         'name': product.name,
-        'description': product.description,
         'price': product.price,
         'category': product.category,
         'images': images
     }
 
+    console.log(JSON.stringify(formData))
 
     try {
-      const response = await axios.post('/api/products/', formData, {
+      const response = await fetch(API_BASE_URL, {
+        method: "POST",
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Authorization': 'Bearer ' + tokens.access,
+          'Content-Type': 'application/json'
+        },
+        // body: JSON.stringify(formData)
       });
-      console.log('Product created:', response.data);
       // Handle success, reset form, etc.
     } catch (error) {
-      console.error('Error creating product:', error);
+      console.log('Error creating product:', error);
       // Handle error
     }
-
-    console.log(formData)
   };
 
   const addImageInput = () => {
@@ -87,11 +105,6 @@ const {user} = useContext(AuthContenxt)
                 <label> <span className="text-gray-700">Product Name:</span><input type="text" name="name" 
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:text-sm"
                 value={product.name} onChange={handleInputChange} required/></label>
-                <br />
-
-                <label><span className="text-gray-700">Description:</span><textarea name="description" 
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:text-sm"
-                value={product.description} onChange={handleInputChange} required/></label>
                 <br />
 
                 <label><span className="text-gray-700">Price:</span><input type="number" name="price" 
