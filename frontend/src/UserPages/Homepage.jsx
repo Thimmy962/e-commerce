@@ -103,7 +103,7 @@ const Homepage = ({ selectedCategory }) => {
 					<Card
 						key = {index}
 						className="max-w-sm"
-						imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
+						imgAlt="Image"
 						imgSrc={img}
 						>
 						<a href="#">
