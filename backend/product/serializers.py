@@ -1,4 +1,4 @@
-from .models import Product, Image
+from .models import Product, Image, Category
 from rest_framework import serializers
 
 
@@ -9,7 +9,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
-    images = ImageSerializer(many=True, read_only=True)  # Nested serializer for images
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -17,3 +17,18 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_owner(self, obj):
         return obj.owner.email
+    
+    
+    def get_images(self, obj):
+        try:
+            query_set = obj.product_images.all()
+            serializer = ImageSerializer(query_set, many=True)
+            return serializer.data
+        except Image.DoesNotExist:
+            return 1
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']

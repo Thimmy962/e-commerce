@@ -8,6 +8,7 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name.title()
 
+    class Meta: ordering = ['-id']
 
 class Product(models.Model):
     id = models.UUIDField(editable=False, unique=True, primary_key=True, default=uuid.uuid4, auto_created=True)
