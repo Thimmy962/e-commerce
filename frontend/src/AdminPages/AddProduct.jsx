@@ -42,6 +42,7 @@ const handleOptionChange = (event) => {
 
     let images = []
 
+  // Wait for all images to be read and encoded before proceeding
   await Promise.all(product.images.map(imageFile => new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -59,8 +60,6 @@ const handleOptionChange = (event) => {
         'category': selectedOption,
         'images': images
     }
-
-    console.log(images.length)
 
     try {
       const response = await fetch(`${API_BASE_URL}/`, {
@@ -137,7 +136,9 @@ const handleOptionChange = (event) => {
         Add Image
       </button>
                 <br />
-                <button type="submit" className='px-3 py-1 bg-blue-600 text-white rounded-md focus:outline-none focus:bg-blue-600'>Submit</button>
+                <button type="submit"
+        className="px-3 py-1 bg-blue-600 text-white rounded-md focus:outline-none focus:bg-blue-600"
+                >Submit</button>
             </form>
   );
 }

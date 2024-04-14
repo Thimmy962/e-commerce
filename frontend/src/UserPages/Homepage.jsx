@@ -77,7 +77,7 @@ const Homepage = ({ categoryId }) => {
 						  </a>
   
 						  	<div className="flex items-center justify-between flex-wrap gap-2">
-							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;{product.price}</span>
+							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;{product.price.toLocaleString()}</span>
 							<a href={`/detail/${product.id}`}>
 							<Button  size='xs' color="gray" className='dark:text-white text-white bg-blue-700 hover:bg-blue-800
 							font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
@@ -102,35 +102,38 @@ const Homepage = ({ categoryId }) => {
       <div className='bg-transparent text-4xl flex justify-center text-center decoration-double text-gray-900 dark:text-white p-10
 	  font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl transition'>Our Products</div>
 
-      <div className="grid  grid-col-1 md:grid-cols-2  lg:grid-cols-4 gap-4 justify-center align-middle">
-			{
-				imgSrc.map((img, index) =>(
-					<Card
-						key = {index}
-						className="max-w-sm"
-						imgAlt="Image"
-						imgSrc={img}
-						>
-						<a href="#">
-							<h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-							Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-							</h5>
-						</a>
+<div className="grid  grid-col-1 md:grid-cols-2  lg:grid-cols-4 gap-4 justify-center align-middle items-center">
+			  {
+				  products.map((product, index) =>(
+					  <Card
+						  key = {product.id}
+						  className="max-w-sm"
+						  imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
 
-						<div className="flex items-center justify-between flex-wrap gap-2">
-							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;599</span>
-							<a href={`/detail/${index}`}>
+						//    used the images above since ive not added an image to any of the products
+						  imgSrc={imgSrc[index]}
+						  >
+						  <a href="#">
+							  <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+							  {product.name}
+							  </h5>
+						  </a>
+  
+						  	<div className="flex items-center justify-between flex-wrap gap-2">
+							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;{product.price.toLocaleString()}</span>
+							<a href={`/detail/${product.id}`}>
 							<Button  size='xs' color="gray" className='dark:text-white text-white bg-blue-700 hover:bg-blue-800
 							font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
-								View
+								Edit
 							</ Button>
 						</a>
 
 						</div>
-					</Card>
-				))
-			}
-     </div>
+
+					  </Card>
+				  ))
+			  }
+	   </div>
     </div>
   );
 

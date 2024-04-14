@@ -81,14 +81,14 @@ import {AddIcon} from './Svg'
                             {
                                 categories.map(category => (
                                     <li key={category.id} onClick={() => setCategoryId(category.id)}>
-                                        <p className="block py-2 px-3 text-gray-900 hover:pointer rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{category.name}</p>
+                                        <p className="block py-2 px-3 text-gray-900 hover:cursor-pointer rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{category.name}</p>
                                     </li>
                                 ))
                             }
 
 
                             <li>
-                                <a href="admin/add" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white
+                                <a href="/admin/add" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white
                                  md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"> <AddIcon /> </a>
                             </li>
     
@@ -182,7 +182,7 @@ import {AddIcon} from './Svg'
                         {
                                 categories.map(category => (
                                     <li key={category.id}> {/* Assuming category has an id */}
-                                        <Link to={`/category/${category.id}`} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{category.name}</Link>
+                                        <Link to={`/category/${category.id}`} className="block py-2 px-3 hover:cursor-pointer text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{category.name}</Link>
                                     </li>
                                 ))
                             }
