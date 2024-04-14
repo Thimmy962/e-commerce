@@ -57,16 +57,17 @@ export const AuthProvider = ({children}) => {
         })
 
             if(res.status === 200){ //If status is ok then do the following
-            let data = await res.json()
-            setTokens(data)
-            setUser(jwtDecode(data.access))
+                let data = await res.json()
+                console.log(data)
+                setTokens(data)
+                setUser(jwtDecode(data.access))
 
-            if(e.target.remember.checked == true){ // If logged in user checked the remember me box then save his info in localStorage
-                localStorage.setItem('tokens', JSON.stringify(data))
+                if(e.target.remember.checked == true){ // If logged in user checked the remember me box then save his info in localStorage
+                    localStorage.setItem('tokens', JSON.stringify(data))
+                }
+                
+                navigate('/') //return user to home page
             }
-            
-            navigate('/') //return user to home page
-        }
         else{
             logout()
         }

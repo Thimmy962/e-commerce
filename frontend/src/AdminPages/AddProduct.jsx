@@ -2,20 +2,20 @@ import React, { useContext, useState } from 'react';
 import AuthContenxt from '../utils/Context';
 import { API_BASE_URL } from '../Components/Config';
 
-const categories = [
-    {'id': 1, 'category': 'Men'},
-    {'id': 2, 'category': 'Women'},
-    {'id': 3, 'category': 'Children'}
-]
 
-function ProductForm() {
+function ProductForm({categories}) {
 
 const {tokens} = useContext(AuthContenxt)  
+
+const [selectedOption, setSelectedOption] = useState("1");
+
+const handleOptionChange = (event) => {
+  setSelectedOption(event.target.value);
+};
 
   const [product, setProduct] = useState({
     name: '',
     price: '',
-    category:'',
     images: [] // Array to store selected images
   });
 
@@ -66,20 +66,20 @@ const {tokens} = useContext(AuthContenxt)
     const formData = {
         'name': product.name,
         'price': product.price,
-        'category': product.category,
+        'category': selectedOption,
         'images': images
     }
 
     console.log(JSON.stringify(formData))
 
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch(`${API_BASE_URL}/`, {
         method: "POST",
         headers: {
           'Authorization': 'Bearer ' + tokens.access,
           'Content-Type': 'application/json'
         },
-        // body: JSON.stringify(formData)
+        body: JSON.stringify(formData)
       });
       // Handle success, reset form, etc.
     } catch (error) {
@@ -113,7 +113,7 @@ const {tokens} = useContext(AuthContenxt)
                 <br />
 
                 <label><span className="text-gray-700">Category:</span>
-                <select name="category" id="" onChange={handleInputChange} className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-600 
+                <select name="category" id=""  value = {selectedOption} onChange={handleOptionChange} className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-600 
                 focus:border-blue-600 sm:text-sm'>
                     <option value="" disabled>Choose a category</option>
                     {

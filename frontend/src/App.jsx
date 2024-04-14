@@ -5,33 +5,63 @@ import {CustomFooter} from './Components/Footer'
 import { DarkThemeToggle, Flowbite } from 'flowbite-react';
 import LoginForm from './AdminPages/Login';
 import ProductForm from './AdminPages/AddProduct';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import PrivateRoutes from './utils/Privateroute'
 import { AuthProvider } from './utils/Context';
 import Detailpage from './UserPages/Detailpage';
 import PageNotFound from './UserPages/PageNotFound';
 import CheckOut from './UserPages/CheckOut';
+import {API_BASE_URL} from './Components/Config'
+
 
 function App(){
 
-	const [selectedCategory, setSelectedCategory] = useState('');
+	const [categoryId, setCategoryId] = useState({})
 
-	const categories = ['Category 1', 'Category 2', 'Category 3'];
-  
-	const handleCategoryChange = (category) => {
-	  setSelectedCategory(category);
+	const [data, setData] = useState(()=>{return []})
+	const [error, setError] = useState(()=>{return null})
+
+	const fetchData = async () => {
+		try {
+			const response = await fetch(`${API_BASE_URL}/categories`, {
+				method: "GET",
+				headers:{
+					'Content-Type': 'application/json'
+				}
+			})
+			const data = await response.json()
+			console.log(data)
+			setData(data);
+		} catch (error) {
+			setError(error);
+		}
 	};
+
+	useEffect(() => {
+        
+
+        fetchData();
+    }, []);
+
 
   return (
 	<AuthProvider>
 		<Flowbite >
 			<DarkThemeToggle className='focus:none'/>
-			<Header darkThemeToggle = {<DarkThemeToggle />} categories={categories} onCategoryChange={handleCategoryChange}/>
+
+			<Header 
+			darkThemeToggle={<DarkThemeToggle />} 
+			{...(error ? { error: error } : { categories: data })} 
+			setCategoryId={setCategoryId} 
+			/>
 			<Routes>
-				<Route path='/' element={<Homepage />} />
-				<Route path='/login' element={<LoginForm />} />
+				<Route path='/' element={<Homepage />} {...{categoryId}}/>
+				<Route path='/login' element={<LoginForm />} {...(error ? { error: error } : { categories: data })} />
 				<Route path = '/detail/:id' element = {<Detailpage />} />
 				<Route path='/checkout' element = {<CheckOut />} />
+				{/* <Route path='/category/:id' element={<Homepage />} /> */}
+
+				
 
 				<Route element={<PrivateRoutes />}>
 					<Route path='/admin/add' element={<ProductForm />} />

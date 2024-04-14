@@ -1,21 +1,15 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AuthContenxt from '../utils/Context';
 import Badge from '@mui/material/Badge';
 import {ShoppingCartOutlined} from '@mui/icons-material';
 import {Link} from 'react-router-dom'
+import {AddIcon} from './Svg'
 
 
-
-  const Header = ({ darkThemeToggle, categories, onCategoryChange}) => {
+  const Header = ({ darkThemeToggle, categories, setCategoryId}) => {
 
     const {user, logout} = useContext(AuthContenxt)
 
-    const [selectedCategory, setSelectedCategory] = useState('');
-
-    const handleCategoryChange = (category) => {
-      setSelectedCategory(category);
-      onCategoryChange(category);
-    };
 
 
     if(user){
@@ -83,22 +77,15 @@ import {Link} from 'react-router-dom'
                                     <Link to="/" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 
                                     md:dark:text-blue-500" aria-current="page">Home</Link>
                                 </li>
-                                
-                            <li onClick={() => handleCategoryChange('men')}>
-                                <Link to="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent 
-                                md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 
-                                dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Men</Link>
-                            </li>
-    
-                            <li onClick={() => handleCategoryChange('women')}>
-                                <Link to="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white 
-                                md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Women</Link>
-                            </li>
-    
-                            <li onClick={() => handleCategoryChange('children')}>
-                                <Link to="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white
-                                 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Children</Link>
-                            </li>
+
+                            {
+                                categories.map(category => (
+                                    <li key={category.id} onClick={() => setCategoryId(category.id)}>
+                                        <p className="block py-2 px-3 text-gray-900 hover:pointer rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{category.name}</p>
+                                    </li>
+                                ))
+                            }
+
 
                             <li>
                                 <a href="admin/add" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white
@@ -191,21 +178,15 @@ import {Link} from 'react-router-dom'
                             md:dark:text-blue-500" aria-current="page">Admin</Link>
                         </li>
 
-                        <li onClick={() => handleCategoryChange('men')}>
-                            <Link to="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent 
-                            md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 
-                            dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Men</Link>
-                        </li>
+                        
+                        {
+                                categories.map(category => (
+                                    <li key={category.id}> {/* Assuming category has an id */}
+                                        <Link to={`/category/${category.id}`} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{category.name}</Link>
+                                    </li>
+                                ))
+                            }
 
-                        <li onClick={() => handleCategoryChange('women')}>
-                            <Link to="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white 
-                            md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Women</Link>
-                        </li>
-
-                        <li onClick={() => handleCategoryChange('children')}>
-                            <Link to="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white
-                             md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Children</Link>
-                        </li>
                     </ul>
                 </div>
             </div>

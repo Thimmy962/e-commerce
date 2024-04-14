@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Banner from '../Components/Banner';
 import AuthContenxt from '../utils/Context';
 import { API_BASE_URL } from '../Components/Config';
+import {useParams} from 'react-router-dom'
 
 
 const imgSrc =[
@@ -20,7 +21,8 @@ const imgSrc =[
 ] 
 
 
-const Homepage = ({ selectedCategory }) => {
+const Homepage = ({ categoryId }) => {
+
   const [products, setProducts] = useState([]);
 
 
@@ -30,9 +32,10 @@ const Homepage = ({ selectedCategory }) => {
   // Fetch products based on the selected category
   useEffect(() => {
     // Fetch products based on the selected category
-    const fetchProducts = async () => {
+    const fetchProducts = async (id) => {
+		console.log(`categoryId is ${categoryId}`)
       try {
-        const response = await fetch(API_BASE_URL); // Fetch data from the API
+        const response = await fetch(`${API_BASE_URL}?query=${id}`); // Fetch data from the API
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
@@ -47,6 +50,8 @@ const Homepage = ({ selectedCategory }) => {
     fetchProducts(); // Call the fetchProducts function
   }, []);
 
+
+  
   if(user){
 
     return (
