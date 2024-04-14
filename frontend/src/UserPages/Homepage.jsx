@@ -59,11 +59,11 @@ const Homepage = ({ categoryId }) => {
 		<div className='bg-transparent text-4xl flex justify-center text-center decoration-double text-gray-900 dark:text-white p-10
 		font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl transition'>Products</div>
   
-		<div className="grid  grid-col-1 md:grid-cols-2  lg:grid-cols-4 gap-4 justify-center align-middle">
+		<div className="grid  grid-col-1 md:grid-cols-2  lg:grid-cols-4 gap-4 justify-center align-middle items-center">
 			  {
-				  products.map((img, index) =>(
+				  products.map((product, index) =>(
 					  <Card
-						  key = {img.id}
+						  key = {product.id}
 						  className="max-w-sm"
 						  imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
 
@@ -72,13 +72,13 @@ const Homepage = ({ categoryId }) => {
 						  >
 						  <a href="#">
 							  <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-							  Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
+							  {product.name}
 							  </h5>
 						  </a>
   
-						  					<div className="flex items-center justify-between flex-wrap gap-2">
-							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;{img.price}</span>
-							<a href={`/detail/${img.id}`}>
+						  	<div className="flex items-center justify-between flex-wrap gap-2">
+							<span className="text-3xl font-bold text-gray-900 dark:text-white">&#x20A6;{product.price}</span>
+							<a href={`/detail/${product.id}`}>
 							<Button  size='xs' color="gray" className='dark:text-white text-white bg-blue-700 hover:bg-blue-800
 							font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
 								Edit

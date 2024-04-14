@@ -42,16 +42,6 @@ const handleOptionChange = (event) => {
 
     let images = []
 
-    for (const image of product.images) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-          const base64ImageData = event.target.result;
-          images.push(base64ImageData);
-      };
-      reader.readAsDataURL(image);
-  }
-
-  // Wait for all images to be read and encoded before proceeding
   await Promise.all(product.images.map(imageFile => new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -70,7 +60,7 @@ const handleOptionChange = (event) => {
         'images': images
     }
 
-    console.log(JSON.stringify(formData))
+    console.log(images.length)
 
     try {
       const response = await fetch(`${API_BASE_URL}/`, {
@@ -118,7 +108,7 @@ const handleOptionChange = (event) => {
                     <option value="" disabled>Choose a category</option>
                     {
                         categories.map((category, index) =>(
-                            <option type="text" name="category" id="" value={category.id} key={index}>{category.category}</option>
+                            <option type="text" name="category" id="" value={category.id} key={index}>{category.name}</option>
                         ))
                     }
                 </select>
@@ -147,7 +137,7 @@ const handleOptionChange = (event) => {
         Add Image
       </button>
                 <br />
-                <button type="submit">Submit</button>
+                <button type="submit" className='px-3 py-1 bg-blue-600 text-white rounded-md focus:outline-none focus:bg-blue-600'>Submit</button>
             </form>
   );
 }

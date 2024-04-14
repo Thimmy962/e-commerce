@@ -59,12 +59,8 @@ function App(){
 				<Route path='/login' element={<LoginForm />} {...(error ? { error: error } : { categories: data })} />
 				<Route path = '/detail/:id' element = {<Detailpage />} />
 				<Route path='/checkout' element = {<CheckOut />} />
-				{/* <Route path='/category/:id' element={<Homepage />} /> */}
-
-				
-
 				<Route element={<PrivateRoutes />}>
-					<Route path='/admin/add' element={<ProductForm />} />
+					<Route path='/admin/add' element={<ProductForm {...{categories: data}}/>}/>
             	</Route>
 				<Route path='*' element = {<PageNotFound />} />
 			</Routes>
