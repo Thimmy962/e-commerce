@@ -7,6 +7,8 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ['image']
 
+
+
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
@@ -26,6 +28,8 @@ class ProductSerializer(serializers.ModelSerializer):
             return serializer.data
         except Image.DoesNotExist:
             return 1
+
+
 
 
 class CategorySerializer(serializers.ModelSerializer):
