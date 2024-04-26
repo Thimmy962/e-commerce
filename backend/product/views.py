@@ -19,7 +19,7 @@ get_category = CategoryAPIVIew.as_view()
 @api_view(["POST", "GET"])
 def product_list_create(request):
     if request.method == 'POST':
-        # try:
+        try:
             data = request.data
 
             category_id = data.get('category')
@@ -45,10 +45,13 @@ def product_list_create(request):
                     product_image.image.save(f"{product.name}.jpg", ContentFile(image_data))
                     product_image.save()
 
+                
+
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
+                print(serializer.errors)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # except Exception as e:
+        except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         
@@ -62,15 +65,43 @@ def product_list_create(request):
 
 
 
-class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Product.objects.all()
+class GetProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
+    lookup_field = 'pk'
 
+    def get_object(self):
+        # Retrieve the primary key (id) from the URL parameters
+        product_id = self.kwargs.get(self.lookup_field)
+        
+        # Query the Category model for the specific product by its primary key
+        queryset = Product.objects.get(id=product_id)
+        return queryset
     
 
-product_detail = ProductDetailAPIView.as_view()
+
+    def update(self, request):
+        # Get the instance of the product to be updated
+        instance = self.get_object()
+
+        # Serialize the request data and perform the update
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+    
 
 
+    def destroy(self, request):
+        # Get the instance of the product to be deleted
+        instance = self.get_object()
+
+        # Perform the delete operation
+        instance.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+product_detail = GetProductDetailAPIView.as_view()
 
 
 """

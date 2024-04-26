@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Banner from '../Components/Banner';
 import AuthContenxt from '../utils/Context';
 import { API_BASE_URL } from '../Components/Config';
-import {useParams} from 'react-router-dom'
+import {Loading} from '../Components/LoadingError';
 
 
 const imgSrc =[
@@ -24,6 +24,7 @@ const imgSrc =[
 const Homepage = ({ categoryId }) => {
 
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(()=>{return true})
 
 
   const {user} = useContext(AuthContenxt)
@@ -45,11 +46,20 @@ const Homepage = ({ categoryId }) => {
         console.error('Error fetching products:', error.message);
         // Handle error state or show an error message to the user
       }
+	  finally{
+		setLoading(false);
+	  }
     };
 
     fetchProducts(); // Call the fetchProducts function
   }, []);
 
+
+  if (loading){
+	return(
+		<Loading />
+	);
+  }
 
   
   if(user){
@@ -124,7 +134,7 @@ const Homepage = ({ categoryId }) => {
 							<a href={`/detail/${product.id}`}>
 							<Button  size='xs' color="gray" className='dark:text-white text-white bg-blue-700 hover:bg-blue-800
 							font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
-								Edit
+								View
 							</ Button>
 						</a>
 

@@ -15,10 +15,21 @@ class Product(models.Model):
     owner = models.ForeignKey(UserAccount, default=1, on_delete=models.CASCADE, related_name = 'user_products')
     name = models.CharField(max_length=32)
     category = models.ForeignKey(Category, on_delete = models.CASCADE, related_name = 'category_product', default = 1)
-    price = models.IntegerField(default=5000)
+    price = models.IntegerField(default = 5000)
+    stock = models.IntegerField(default = 1)
+
 
     def __str__(self):
         return self.name
+
+
+
+class Comments(models.Model):
+    product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = 'comments')
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    mail = models.EmailField()
+    content = models.CharField(max_length = 1000)
     
 
 class Image(models.Model):

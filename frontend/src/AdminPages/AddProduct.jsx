@@ -1,9 +1,12 @@
 import React, { useContext, useState } from 'react';
 import AuthContenxt from '../utils/Context';
 import { API_BASE_URL } from '../Components/Config';
+import { useNavigate } from 'react-router-dom';
 
 
 function ProductForm({categories}) {
+
+  const navigate = useNavigate()
 
 const {tokens} = useContext(AuthContenxt)  
 
@@ -69,9 +72,13 @@ const handleOptionChange = (event) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
+
       });
-      // Handle success, reset form, etc.
-    } catch (error) {
+
+      const result = await response.json()
+      navigate(`/detail/${result.id}`)
+    } 
+    catch (error) {
       console.log('Error creating product:', error);
       // Handle error
     }
